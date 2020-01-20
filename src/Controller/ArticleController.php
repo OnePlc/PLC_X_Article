@@ -201,7 +201,7 @@ class ArticleController extends CoreController {
 
         # Save Multiselect
         $this->updateMultiSelectFields($_REQUEST,$oArticle,'article-single');
-
+        
         # Log Performance in DB
         $aMeasureEnd = getrusage();
         $this->logPerfomance('article-save',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));
