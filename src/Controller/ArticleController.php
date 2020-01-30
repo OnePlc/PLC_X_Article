@@ -199,9 +199,12 @@ class ArticleController extends CoreController {
 
         $this->layout('layout/json');
 
+        # Parse Form Data
+        $aFormData = $this->parseFormData($_REQUEST);
+
         # Save Multiselect
-        $this->updateMultiSelectFields($_REQUEST,$oArticle,'article-single');
-        
+        $this->updateMultiSelectFields($aFormData,$oArticle,'article-single');
+
         # Log Performance in DB
         $aMeasureEnd = getrusage();
         $this->logPerfomance('article-save',$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"utime"),$this->rutime($aMeasureEnd,CoreController::$aPerfomanceLogStart,"stime"));

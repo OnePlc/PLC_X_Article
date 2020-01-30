@@ -43,11 +43,25 @@ class ArticleTable extends CoreEntityTable {
      * Fetch All Article Entities based on Filters
      *
      * @param bool $bPaginated
+     * @param array $aWhere
      * @return Paginator Paginated Table Connection
      * @since 1.0.0
      */
-    public function fetchAll($bPaginated = false) {
+    public function fetchAll($bPaginated = false,$aWhere = []) {
         $oSel = new Select($this->oTableGateway->getTable());
+
+        # Build where
+        $oWh = new Where();
+        foreach(array_keys($aWhere) as $sWh) {
+            $bIsLike = stripos($sWh,'-like');
+            if($bIsLike === false) {
+
+            } else {
+                # its a like
+                $oWh->like(substr($sWh,0,strlen($sWh)-strlen('-like')),$aWhere[$sWh].'%');
+            }
+        }
+        $oSel->where($oWh);
 
         # Return Paginator or Raw ResultSet based on selection
         if ($bPaginated) {
@@ -142,5 +156,24 @@ class ArticleTable extends CoreEntityTable {
         $this->oTableGateway->update($aData, ['Article_ID' => $id]);
 
         return $id;
+    }
+
+    /**
+     * Generate daily stats for article
+     *
+     * @since 1.0.1
+     */
+    public function generateDailyStats() {
+        # get all articles
+        $iTotal = count($this->fetchAll(false));
+        # get newly created articles
+        $iNew = count($this->fetchAll(false,['created_date-like'=>date('Y-m-d',time())]));
+
+        # add statistics
+        CoreController::$aCoreTables['core-statistic']->insert([
+            'stats_key'=>'article-daily',
+            'data'=>json_encode(['new'=>$iNew,'total'=>$iTotal]),
+            'date'=>date('Y-m-d H:i:s',time()),
+        ]);
     }
 }
