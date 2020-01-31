@@ -17,12 +17,12 @@ namespace OnePlace\Article\Model;
 
 use Application\Controller\CoreController;
 use Application\Model\CoreEntityTable;
-use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Where;
-use Laminas\Paginator\Paginator;
+use Laminas\Db\TableGateway\TableGateway;
 use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
 class ArticleTable extends CoreEntityTable {
 
@@ -61,6 +61,11 @@ class ArticleTable extends CoreEntityTable {
                 $oWh->like(substr($sWh,0,strlen($sWh)-strlen('-like')),$aWhere[$sWh].'%');
             }
         }
+        if(array_key_exists('multi_tag',$aWhere)) {
+            $oSel->join(['category_tag'=>'core_entity_tag_entity'],'category_tag.entity_idfs = article.Article_ID');
+            $oWh->equalTo('category_tag.entity_tag_idfs',$aWhere['multi_tag']);
+            $oWh->like('category_tag.entity_type',explode('-',$this->sSingleForm)[0]);
+        }
         $oSel->where($oWh);
 
         # Return Paginator or Raw ResultSet based on selection
@@ -91,12 +96,13 @@ class ArticleTable extends CoreEntityTable {
      * Get Article Entity
      *
      * @param int $id
+     * @param string $sKey custom key
      * @return mixed
      * @since 1.0.0
      */
-    public function getSingle($id) {
+    public function getSingle($id,$sKey = 'Article_ID') {
         $id = (int) $id;
-        $rowset = $this->oTableGateway->select(['Article_ID' => $id]);
+        $rowset = $this->oTableGateway->select([$sKey => $id]);
         $row = $rowset->current();
         if (! $row) {
             throw new \RuntimeException(sprintf(
@@ -161,7 +167,7 @@ class ArticleTable extends CoreEntityTable {
     /**
      * Generate daily stats for article
      *
-     * @since 1.0.1
+     * @since 1.0.5
      */
     public function generateDailyStats() {
         # get all articles
@@ -175,5 +181,9 @@ class ArticleTable extends CoreEntityTable {
             'data'=>json_encode(['new'=>$iNew,'total'=>$iTotal]),
             'date'=>date('Y-m-d H:i:s',time()),
         ]);
+    }
+
+    public function generateNew() {
+        return new Article($this->oTableGateway->getAdapter());
     }
 }

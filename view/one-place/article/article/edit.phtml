@@ -1,3 +1,2 @@
-<h2>Edit Article</h2>
-
-<?= $this->partial('partial/basicform', ['sFormName'=>$sFormName,'oItem'=>$oArticle]); ?>
+<?= $this->partial('partial/formheader',['sTitle'=>'Edit Article '.$oItem->getLabel()]) ?>
+<?= $this->partial('partial/basicform', ['sFormName'=>$sFormName,'oItem'=>$oItem]); ?>

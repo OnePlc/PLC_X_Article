@@ -24,7 +24,9 @@ INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav
 ('edit', 'OnePlace\\Article\\Controller\\ArticleController', 'Edit', '', '', 0),
 ('index', 'OnePlace\\Article\\Controller\\ArticleController', 'Index', 'Articles', '/article', 1),
 ('list', 'OnePlace\\Article\\Controller\\ApiController', 'List', '', '', 1),
-('view', 'OnePlace\\Article\\Controller\\ArticleController', 'View', '', '', 0);
+('view', 'OnePlace\\Article\\Controller\\ArticleController', 'View', '', '', 0),
+('dump', 'OnePlace\\Article\\Controller\\ExportController', 'Excel Dump', '', '', 0),
+('index', 'OnePlace\\Article\\Controller\\SearchController', 'Search', '', '', 0);
 
 --
 -- Form
@@ -49,12 +51,16 @@ INSERT INTO `core_form_tab` (`Tab_ID`, `form`, `title`, `subtitle`, `icon`, `cou
 INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `class`, `append`, `form`, `mode`, `filter_check`, `filter_value`) VALUES
 (NULL, 'Save Article', 'fas fa-save', 'Save Article', '#', 'primary saveForm', '', 'article-single', 'link', '', ''),
 (NULL, 'Edit Article', 'fas fa-edit', 'Edit Article', '/article/edit/##ID##', 'primary', '', 'article-view', 'link', '', ''),
-(NULL, 'Add Article', 'fas fa-plus', 'Add Article', '/article/add', 'primary', '', 'article-index', 'link', '', '');
+(NULL, 'Add Article', 'fas fa-plus', 'Add Article', '/article/add', 'primary', '', 'article-index', 'link', '', ''),
+(NULL, 'Export Articles', 'fas fa-file-excel', 'Export Articles', '/article/export', 'primary', '', 'article-index', 'link', '', ''),
+(NULL, 'Find Articles', 'fas fa-searh', 'Find Articles', '/article/search', 'primary', '', 'article-index', 'link', '', ''),
+(NULL, 'Export Articles', 'fas fa-file-excel', 'Export Articles', '#', 'primary initExcelDump', '', 'article-search', 'link', '', ''),
+(NULL, 'New Search', 'fas fa-searh', 'New Search', '/article/search', 'primary', '', 'article-search', 'link', '', '');
 
 --
 -- Fields
 --
-INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_ist`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
 (NULL, 'text', 'Name', 'label', 'article-base', 'article-single', 'col-md-3', '/article/view/##ID##', '', 0, 1, 0, '', '', '');
 
 --

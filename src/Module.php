@@ -15,22 +15,24 @@
 
 namespace OnePlace\Article;
 
+use Application\Controller\CoreEntityController;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
-use Laminas\Mvc\MvcEvent;
 use Laminas\ModuleManager\ModuleManager;
+use Laminas\Mvc\MvcEvent;
 use Laminas\Session\Config\StandardConfig;
-use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
+use Laminas\Session\SessionManager;
+use OnePlace\Article\Controller\PluginController;
 
 class Module {
     /**
      * Module Version
      *
-     * @since 1.0.1
+     * @since 1.0.0
      */
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
 
     /**
      * Load module config file
@@ -69,17 +71,49 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
+                # Plugin Example Controller
+                Controller\PluginController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\PluginController(
+                        $oDbAdapter,
+                        $container->get(Model\ArticleTable::class),
+                        $container
+                    );
+                },
+                # Article Main Controller
                 Controller\ArticleController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
+                    $tableGateway = $container->get(Model\ArticleTable::class);
+                    # hook plugin
+                    CoreEntityController::addHook('article-add-before',(object)['sFunction'=>'testFunction','oItem'=>new PluginController($oDbAdapter,$tableGateway,$container)]);
                     return new Controller\ArticleController(
                         $oDbAdapter,
                         $container->get(Model\ArticleTable::class),
                         $container
                     );
                 },
+                # Api Plugin
                 Controller\ApiController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\ApiController(
+                        $oDbAdapter,
+                        $container->get(Model\ArticleTable::class),
+                        $container
+                    );
+                },
+                # Export Plugin
+                Controller\ExportController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\ExportController(
+                        $oDbAdapter,
+                        $container->get(Model\ArticleTable::class),
+                        $container
+                    );
+                },
+                # Search Plugin
+                Controller\SearchController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\SearchController(
                         $oDbAdapter,
                         $container->get(Model\ArticleTable::class),
                         $container

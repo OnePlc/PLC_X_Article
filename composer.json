@@ -8,6 +8,7 @@
         "mvc",
         "article",
         "oneplace",
+        "oneplace-module",
         "framework"
     ],
     "require-dev": {
@@ -17,7 +18,8 @@
     },
     "require": {
         "php": "^7.1",
-        "oneplace/oneplace-core": "^1.0.0"
+        "oneplace/oneplace-core": "^1.0.6.1",
+        "phpoffice/phpspreadsheet": "^1.10"
     },
     "autoload": {
         "psr-4": {
