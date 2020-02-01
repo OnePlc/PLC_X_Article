@@ -17,10 +17,10 @@ namespace OnePlace\Article\Controller;
 
 use Application\Controller\CoreController;
 use Application\Controller\CoreExportController;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Db\Sql\Where;
-use Laminas\View\Model\ViewModel;
 use OnePlace\Article\Model\ArticleTable;
+use Laminas\Db\Sql\Where;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\View\Model\ViewModel;
 
 
 class ExportController extends CoreExportController

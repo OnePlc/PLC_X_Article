@@ -18,9 +18,9 @@ declare(strict_types=1);
 namespace OnePlace\Article\Controller;
 
 use Application\Controller\CoreController;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\View\Model\ViewModel;
 use OnePlace\Article\Model\ArticleTable;
+use Laminas\View\Model\ViewModel;
+use Laminas\Db\Adapter\AdapterInterface;
 use Zend\I18n\Translator\Translator;
 
 class ApiController extends CoreController {

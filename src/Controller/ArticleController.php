@@ -19,9 +19,10 @@ namespace OnePlace\Article\Controller;
 
 use Application\Controller\CoreEntityController;
 use Application\Model\CoreEntityModel;
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\View\Model\ViewModel;
+use OnePlace\Article\Model\Article;
 use OnePlace\Article\Model\ArticleTable;
+use Laminas\View\Model\ViewModel;
+use Laminas\Db\Adapter\AdapterInterface;
 
 class ArticleController extends CoreEntityController {
     /**

@@ -17,12 +17,12 @@ declare(strict_types=1);
 
 namespace OnePlaceTest\Article\Controller;
 
-use Laminas\Db\Adapter\AdapterInterface;
-use Laminas\Session\Container;
+use OnePlace\Article\Controller\ArticleController;
 use Laminas\Stdlib\ArrayUtils;
 use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OnePlace\Article\Controller\ArticleController;
+use Laminas\Session\Container;
 use User\Model\TestUser;
+use Laminas\Db\Adapter\AdapterInterface;
 
 class ArticleControllerTest extends AbstractHttpControllerTestCase {
     public function setUp() : void {

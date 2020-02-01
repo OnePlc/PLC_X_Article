@@ -15,15 +15,15 @@
 
 namespace OnePlace\Article;
 
-use Application\Controller\CoreEntityController;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\TableGateway\TableGateway;
-use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
+use Laminas\ModuleManager\ModuleManager;
 use Laminas\Session\Config\StandardConfig;
-use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
+use Laminas\Session\Container;
+use Application\Controller\CoreEntityController;
 use OnePlace\Article\Controller\PluginController;
 
 class Module {
@@ -32,7 +32,7 @@ class Module {
      *
      * @since 1.0.0
      */
-    const VERSION = '1.0.2';
+    const VERSION = '1.0.0';
 
     /**
      * Load module config file
