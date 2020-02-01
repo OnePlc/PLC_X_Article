@@ -16,4 +16,4 @@ $ composer require oneplace/oneplace-article
 * Issues: [github.com/oneplc/plc_x_article/issues](https://github.com/oneplc/plc_x_article/issues)
 * Source: [github.com/oneplc/plc_x_article/](https://github.com/oneplc/plc_x_article/)
 * Chat: [docs.1plc.ch/chat](https://docs.1plc.ch/chat)
-* Forum: [discource.1plc.ch](https://discource.1plc.ch)
+* Forum: [discourse.1plc.ch](https://discourse.1plc.ch)
