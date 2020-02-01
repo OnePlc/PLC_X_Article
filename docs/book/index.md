@@ -8,7 +8,7 @@ or any other type of product like Machinery and so on.
 Using composer
 
 ```bash
-$ composer require oneplace/laminas-article
+$ composer require oneplace/oneplace-article
 ```
 
 ## Support
