@@ -17,13 +17,14 @@ declare(strict_types=1);
 
 namespace OnePlace\Article\Controller;
 
-use Application\Controller\CoreController;
+use Application\Controller\CoreApiController;
 use OnePlace\Article\Model\ArticleTable;
 use Laminas\View\Model\ViewModel;
 use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Sql\Select;
 use Zend\I18n\Translator\Translator;
 
-class ApiController extends CoreController {
+class ApiController extends CoreApiController {
     /**
      * Article Table Object
      *
@@ -170,7 +171,7 @@ class ApiController extends CoreController {
                     $aItems[] = ['id'=>$oItem->getID(),'text'=>$sVal];
                 } else {
                     # Init public item
-                    $aPublicItem = [];
+                    $aPublicItem = ['id'=>$oItem->getID()];
 
                     # add all fields to item
                     foreach($aFields as $oField) {
@@ -186,12 +187,18 @@ class ApiController extends CoreController {
                                 break;
                             case 'select':
                                 # get selected
-                                $oTag = $oItem->getSelectField($oField->fieldkey);
-                                if($oTag) {
-                                    if (property_exists($oTag, 'tag_value')) {
-                                        $aPublicItem[$oField->fieldkey] = ['id' => $oTag->id, 'label' => $translator->translate($oTag->tag_value,'article',$sLang)];
-                                    } else {
-                                        $aPublicItem[$oField->fieldkey] = ['id' => $oTag->getID(), 'label' => $translator->translate($oTag->getLabel(),'article',$sLang)];
+                                try {
+                                    $oTag = $oItem->getSelectField($oField->fieldkey);
+                                } catch(\RuntimeException $e) {
+
+                                }
+                                if(isset($oTag)) {
+                                    if (is_object($oTag)) {
+                                        if (property_exists($oTag, 'tag_value')) {
+                                            $aPublicItem[$oField->fieldkey] = ['id' => $oTag->id, 'label' => $translator->translate($oTag->tag_value, 'article', $sLang)];
+                                        } else {
+                                            $aPublicItem[$oField->fieldkey] = ['id' => $oTag->getID(), 'label' => $translator->translate($oTag->getLabel(), 'article', $sLang)];
+                                        }
                                     }
                                 }
                                 break;
@@ -199,6 +206,22 @@ class ApiController extends CoreController {
                             case 'date':
                             case 'textarea':
                                 $aPublicItem[$oField->fieldkey] = $translator->translate($oItem->getTextField($oField->fieldkey),'article',$sLang);
+                                break;
+                            case 'featuredimage':
+                                $aPublicItem['featured_image'] = '/data/article/'.$oItem->getID().'/'.$oItem->getTextField('featured_image');
+                                break;
+                            case 'gallery':
+                                $oMediaSel = new Select(CoreApiController::$aCoreTables['core-gallery-media']->getTable());
+                                $oMediaSel->where(['entity_idfs'=>$oItem->getID(),'entity_type'=>'article','is_public'=>1]);
+                                $oMediaSel->order('sort_id ASC');
+                                $oMediaDB = CoreApiController::$aCoreTables['core-gallery-media']->selectWith($oMediaSel);
+                                if(count($oMediaDB) > 0) {
+                                    $aImages = [];
+                                    foreach($oMediaDB as $oMedia) {
+                                        $aImages[] = $oMedia->filename;
+                                    }
+                                    $aPublicItem['gallery'] = $aImages;
+                                }
                                 break;
                             default:
                                 break;
@@ -256,10 +279,101 @@ class ApiController extends CoreController {
             return false;
         }
 
+        # get list label from query
+        $sLang = 'en_US';
+        if(isset($_REQUEST['lang'])) {
+            $sLang = $_REQUEST['lang'];
+        }
+
+        $translator = new Translator();
+        $aLangs = ['en_US','de_DE'];
+        foreach($aLangs as $sLoadLang) {
+            if(file_exists(__DIR__.'/../../../oneplace-translation/language/'.$sLoadLang.'.mo')) {
+                $translator->addTranslationFile('gettext', __DIR__.'/../../../oneplace-translation/language/'.$sLang.'.mo', 'article', $sLoadLang);
+            }
+        }
+
+        $translator->setLocale($sLang);
+
+        $aFields = $this->getFormFields('article-single');
+        $aFieldsByKey = [];
+        # fields are sorted by tab , we need an index with all fields
+        foreach($aFields as $oField) {
+            $aFieldsByKey[$oField->fieldkey] = $oField;
+        }
+
+        # Init public item
+        $aPublicItem = ['id'=>$oItem->getID()];
+
+        # add all fields to item
+        foreach($aFields as $oField) {
+            switch($oField->type) {
+                case 'multiselect':
+                    # get selected
+                    $oTags = $oItem->getMultiSelectField($oField->fieldkey);
+                    $aTags = [];
+                    foreach($oTags as $oTag) {
+                        $aTags[] = ['id'=>$oTag->id,'label'=>$translator->translate($oTag->text,'article',$sLang)];
+                    }
+                    $aPublicItem[$oField->fieldkey] = $aTags;
+                    break;
+                case 'select':
+                    # get selected
+                    try {
+                        $oTag = $oItem->getSelectField($oField->fieldkey);
+                    } catch(\RuntimeException $e) {
+
+                    }
+                    if(isset($oTag)) {
+                        if (is_object($oTag)) {
+                            if (property_exists($oTag, 'tag_value')) {
+                                $aPublicItem[$oField->fieldkey] = ['id' => $oTag->id, 'label' => $translator->translate($oTag->tag_value, 'article', $sLang)];
+                            } else {
+                                $aPublicItem[$oField->fieldkey] = ['id' => $oTag->getID(), 'label' => $translator->translate($oTag->getLabel(), 'article', $sLang)];
+                            }
+                        }
+                    }
+                    break;
+                case 'text':
+                case 'date':
+                case 'textarea':
+                    $aPublicItem[$oField->fieldkey] = $translator->translate($oItem->getTextField($oField->fieldkey),'article',$sLang);
+                    break;
+                case 'featuredimage':
+                    $aPublicItem['featured_image'] = '/data/article/'.$oItem->getID().'/'.$oItem->getTextField('featured_image');
+                    break;
+                case 'gallery':
+                    $oMediaSel = new Select(CoreApiController::$aCoreTables['core-gallery-media']->getTable());
+                    $oMediaSel->where(['entity_idfs'=>$oItem->getID(),'entity_type'=>'article','is_public'=>1]);
+                    $oMediaSel->order('sort_id ASC');
+                    $oMediaDB = CoreApiController::$aCoreTables['core-gallery-media']->selectWith($oMediaSel);
+                    if(count($oMediaDB) > 0) {
+                        $aImages = [];
+                        foreach($oMediaDB as $oMedia) {
+                            $aImages[] = $oMedia->filename;
+                        }
+                        $aPublicItem['gallery'] = $aImages;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
         # Print Entity
-        $aReturn = ['state'=>'success','message'=>'Article found','oItem'=>$oItem];
+        $aReturn = ['state'=>'success','message'=>'Article found','oItem'=>$aPublicItem];
         echo json_encode($aReturn);
 
         return false;
+    }
+
+    public function getfieldsAction() {
+        $this->layout('layout/json');
+
+        $aData = $this->getPublicFormFields('article-single');
+
+        return new ViewModel([
+            'aFields'=>$aData,
+        ]);
     }
 }

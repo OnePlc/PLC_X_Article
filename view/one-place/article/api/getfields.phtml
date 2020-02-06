@@ -1,0 +1,10 @@
+<?php
+
+$aTranslatedData = [];
+foreach(array_keys($aFields) as $sKey) {
+    $oItem = $aFields[$sKey];
+    $oItem->label = $this->translate($oItem->label);
+    $aTranslatedData[$sKey] = $oItem;
+}
+$aResponse = ['state'=>'success','aFields'=>$aTranslatedData];
+echo json_encode($aResponse);

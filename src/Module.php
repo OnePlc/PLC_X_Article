@@ -84,8 +84,6 @@ class Module {
                 Controller\ArticleController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     $tableGateway = $container->get(Model\ArticleTable::class);
-                    # hook plugin
-                    CoreEntityController::addHook('article-add-before',(object)['sFunction'=>'testFunction','oItem'=>new PluginController($oDbAdapter,$tableGateway,$container)]);
                     return new Controller\ArticleController(
                         $oDbAdapter,
                         $container->get(Model\ArticleTable::class),
