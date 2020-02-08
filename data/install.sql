@@ -64,10 +64,11 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'text', 'Name', 'label', 'article-base', 'article-single', 'col-md-3', '/article/view/##ID##', '', 0, 1, 0, '', '', '');
 
 --
--- Default Widgets
+-- User XP Activity
 --
-INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
-(NULL, 'article_dailystats', 'Article - Daily Stats', 'index-Article\\Controller\\ArticleController'),
-(NULL, 'article_taginfo', 'Article - Tag Info', 'index-Article\\Controller\\ArticleController');
+INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VALUES
+(NULL, 'article-add', 'Add New Article', '50'),
+(NULL, 'article-edit', 'Edit Article', '5'),
+(NULL, 'article-export', 'Edit Article', '5');
 
 COMMIT;

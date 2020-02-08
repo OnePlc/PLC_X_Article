@@ -10,7 +10,7 @@
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
  * @version 1.0.0
- * @since 1.0.5
+ * @since 1.0.0
  */
 
 namespace OnePlace\Article\Controller;
@@ -41,13 +41,13 @@ class ExportController extends CoreExportController
      * Dump Articles to excel file
      *
      * @return ViewModel
-     * @since 1.0.5
+     * @since 1.0.0
      */
     public function dumpAction() {
         $this->layout('layout/json');
 
         # Use Default export function
-        $aViewData = $this->exportArticleBasedData('Articles','article');
+        $aViewData = $this->exportData('Articles','article');
 
         # return data to view (popup)
         return new ViewModel($aViewData);

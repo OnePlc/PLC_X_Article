@@ -24,7 +24,6 @@ use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\SessionManager;
 use Laminas\Session\Container;
 use Application\Controller\CoreEntityController;
-use OnePlace\Article\Controller\PluginController;
 
 class Module {
     /**
@@ -71,15 +70,6 @@ class Module {
     public function getControllerConfig() : array {
         return [
             'factories' => [
-                # Plugin Example Controller
-                Controller\PluginController::class => function($container) {
-                    $oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\PluginController(
-                        $oDbAdapter,
-                        $container->get(Model\ArticleTable::class),
-                        $container
-                    );
-                },
                 # Article Main Controller
                 Controller\ArticleController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);

@@ -105,7 +105,7 @@ class ArticleTable extends CoreEntityTable {
      * Generate new single Entity
      *
      * @return Article
-     * @since 1.0.7
+     * @since 1.0.0
      */
     public function generateNew() {
         return new Article($this->oTableGateway->getAdapter());
