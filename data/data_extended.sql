@@ -12,7 +12,7 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 -- Core Form  Tabs
 --
 INSERT INTO `core_form_tab` (`Tab_ID`, `form`, `title`, `subtitle`, `icon`, `counter`, `sort_id`, `filter_check`, `filter_value`) VALUES
-('article-finance', 'article-single', 'Finance', 'prices', 'fas fa-university', '', 1, '', '');
+('article-finance', 'article-single', 'Finance', 'prices', 'fas fa-university', '', 1, '', ''),
 ('article-history', 'article-single', 'History', '', 'fas fa-history', '', 1, '', '');
 
 --
