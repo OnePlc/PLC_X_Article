@@ -10,7 +10,7 @@
  * @copyright (C) 2020  Verein onePlace <admin@1plc.ch>
  * @license https://opensource.org/licenses/BSD-3-Clause
  * @version 1.0.0
- * @since 1.0.0
+ * @since 1.0.5
  */
 
 namespace OnePlace\Article\Controller;
@@ -54,7 +54,7 @@ class SearchController extends CoreSearchController
      * Dump Article data to desired format
      *
      * @return bool
-     * @since 1.0.0
+     * @since 1.0.5
      */
     public function indexAction() {
         /**

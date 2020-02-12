@@ -2,8 +2,8 @@
     "name": "oneplace/oneplace-article",
     "description": "onePlace Article Module",
     "type": "oneplace-module",
-    "version": "1.0.4",
     "license": "BSD-3-Clause",
+    "version": "1.0.5",
     "keywords": [
         "laminas",
         "mvc",
@@ -14,12 +14,14 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "^8",
-        "oneplace/oneplace-core": "^1.0.15",
+        "oneplace/oneplace-core": "^1.0.18",
+        "oneplace/oneplace-tag": "^1.0.6",
         "laminas/laminas-test": "^3.3.0"
     },
     "require": {
         "php": "^7.1",
-        "oneplace/oneplace-core": "^1.0.6.1",
+        "oneplace/oneplace-core": "^1.0.19",
+        "oneplace/oneplace-tag": "^1.0.6",
         "phpoffice/phpspreadsheet": "^1.10"
     },
     "autoload": {
