@@ -116,6 +116,15 @@ class Module {
                         $container
                     );
                 },
+                # Installer
+                Controller\ImportController::class => function($container) {
+                    $oDbAdapter = $container->get(AdapterInterface::class);
+                    return new Controller\ImportController(
+                        $oDbAdapter,
+                        $container->get(Model\ArticleTable::class),
+                        $container
+                    );
+                },
             ],
         ];
     }

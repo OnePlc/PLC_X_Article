@@ -19,14 +19,15 @@ ALTER TABLE `article`
 --
 -- Permissions
 --
-INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`) VALUES
-('add', 'OnePlace\\Article\\Controller\\ArticleController', 'Add', '', '', 0),
-('edit', 'OnePlace\\Article\\Controller\\ArticleController', 'Edit', '', '', 0),
-('index', 'OnePlace\\Article\\Controller\\ArticleController', 'Index', 'Articles', '/article', 1),
-('list', 'OnePlace\\Article\\Controller\\ApiController', 'List', '', '', 1),
-('view', 'OnePlace\\Article\\Controller\\ArticleController', 'View', '', '', 0),
-('dump', 'OnePlace\\Article\\Controller\\ExportController', 'Excel Dump', '', '', 0),
-('index', 'OnePlace\\Article\\Controller\\SearchController', 'Search', '', '', 0);
+INSERT INTO `permission` (`permission_key`, `module`, `label`, `nav_label`, `nav_href`, `show_in_menu`, `needs_globaladmin`) VALUES
+('add', 'OnePlace\\Article\\Controller\\ArticleController', 'Add', '', '', 0, 0),
+('edit', 'OnePlace\\Article\\Controller\\ArticleController', 'Edit', '', '', 0, 0),
+('index', 'OnePlace\\Article\\Controller\\ArticleController', 'Index', 'Articles', '/article', 1, 0),
+('list', 'OnePlace\\Article\\Controller\\ApiController', 'List', '', '', 1, 0),
+('view', 'OnePlace\\Article\\Controller\\ArticleController', 'View', '', '', 0, 0),
+('dump', 'OnePlace\\Article\\Controller\\ExportController', 'Excel Dump', '', '', 0, 0),
+('index', 'OnePlace\\Article\\Controller\\SearchController', 'Search', '', '', 0, 0),
+('save', 'OnePlace\\Article\\Controller\\SearchController', 'Save Search', '', '', 0, 0);
 
 --
 -- Form
@@ -53,9 +54,9 @@ INSERT INTO `core_form_button` (`Button_ID`, `label`, `icon`, `title`, `href`, `
 (NULL, 'Edit Article', 'fas fa-edit', 'Edit Article', '/article/edit/##ID##', 'primary', '', 'article-view', 'link', '', ''),
 (NULL, 'Add Article', 'fas fa-plus', 'Add Article', '/article/add', 'primary', '', 'article-index', 'link', '', ''),
 (NULL, 'Export Articles', 'fas fa-file-excel', 'Export Articles', '/article/export', 'primary', '', 'article-index', 'link', '', ''),
-(NULL, 'Find Articles', 'fas fa-searh', 'Find Articles', '/article/search', 'primary', '', 'article-index', 'link', '', ''),
+(NULL, 'Find Articles', 'fas fa-search', 'Find Articles', '/article/search', 'primary', '', 'article-index', 'link', '', ''),
 (NULL, 'Export Articles', 'fas fa-file-excel', 'Export Articles', '#', 'primary initExcelDump', '', 'article-search', 'link', '', ''),
-(NULL, 'New Search', 'fas fa-searh', 'New Search', '/article/search', 'primary', '', 'article-search', 'link', '', '');
+(NULL, 'New Search', 'fas fa-search', 'New Search', '/article/search', 'primary', '', 'article-search', 'link', '', '');
 
 --
 -- Fields
