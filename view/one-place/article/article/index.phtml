@@ -1,12 +1,3 @@
-<?php
-use Application\Controller\CoreController;
-
-$sRoute = (isset($sRoute)) ? $sRoute : explode('-',$sTableName)[0];
-$aSavedSearches = CoreController::$aCoreTables['user-search']->select([
-    'user_idfs' => CoreController::$oSession->oUser->getID(),
-    'list_name' => $sTableName,
-]);
-?>
 <div class="card">
     <div class="card-header">
         <div class="row">
@@ -14,7 +5,7 @@ $aSavedSearches = CoreController::$aCoreTables['user-search']->select([
                 <?= $this->partial('partial/indexheader',['sTitle'=>'Articles']) ?>
             </div>
             <div class="col-md-2 text-right">
-                <select class="form-control plc-index-load-saved-search">
+                <select class="form-control   ">
                     <option>-- <?=$this->translate('All')?> --</option>
                     <?php
                     if (count($aSavedSearches) > 0) {
