@@ -105,6 +105,7 @@ class ImportController extends CoreUpdateController {
 
        $oNewArtTbl = new TableGateway('article', CoreUpdateController::$oDbAdapter);
 
+       $oMediaTbl = new TableGateway('core_gallery_media', CoreUpdateController::$oDbAdapter);
        $oArtTbl = new TableGateway('article', $oImportAdapter);
        $oContactTbl = new TableGateway('contact', $oImportAdapter);
        $oArtModelTbl = new TableGateway('article_model', $oImportAdapter);
@@ -181,6 +182,7 @@ class ImportController extends CoreUpdateController {
 
            $aNewArt = [
                'label' => $oArt->label,
+               'custom_art_nr' => $oArt->article_ref_nr,
                'weblink_ext1' => $oArt->weblink_ext1,
                'weblink_ext2' => $oArt->weblink_manufacturer,
                'weblink_youtube' => '',
@@ -228,6 +230,25 @@ class ImportController extends CoreUpdateController {
 
            $oNewArtTbl->insert($aNewArt);
            $iNewArtID = $oNewArtTbl->lastInsertValue;
+
+
+           mkdir($_SERVER['DOCUMENT_ROOT'].'/data/article/'.$iNewArtID);
+           $iSortID = 0;
+           foreach(glob('/var/www/backupdata/data/article/'.$oArt->Article_ID.'/*') as $sImg) {
+               $oMediaTbl->insert([
+                   'filename' => basename($sImg),
+                   'entity_idfs' => $iNewArtID,
+                   'entity_type' => 'article',
+                   'is_public' => 1,
+                   'created_by' => 1,
+                   'modified_by' => 1,
+                   'modified_date' => date('Y-m-d H:i:s',time()),
+                   'created_date' => date('Y-m-d H:i:s',time()),
+                   'sort_id' => $iSortID,
+               ]);
+               $iSortID++;
+               copy($sImg, $_SERVER['DOCUMENT_ROOT'].'/data/article/'.$iNewArtID.'/'.basename($sImg));
+           }
        }
 
        return new ViewModel([

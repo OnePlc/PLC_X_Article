@@ -1,0 +1,15 @@
+<?php
+$aTranslatedFields = [];
+foreach($aFields as $oField) {
+    $oPubField = (object)[
+        'label' => $translator->translate($oField->label, $sEntityType, $translator->getLocale()),
+        'fieldkey' => $oField->fieldkey,
+        'type' => $oField->type,
+    ];
+
+    $aTranslatedFields[$oField->fieldkey] = $oPubField;
+}
+
+$aResponse = (object)['state' => 'success', 'aFields' => $aTranslatedFields];
+
+echo json_encode($aResponse);
