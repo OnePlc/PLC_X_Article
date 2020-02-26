@@ -111,6 +111,8 @@ class ImportController extends CoreUpdateController {
        $oArtModelTbl = new TableGateway('article_model', $oImportAdapter);
        $oArtSystemTbl = new TableGateway('article_system', $oImportAdapter);
        $oArtCoolantTbl = new TableGateway('article_coolant', $oImportAdapter);
+       $oArtCatTbl = new TableGateway('article_category', $oImportAdapter);
+       $oArtCatArtTbl = new TableGateway('article_article_category', $oImportAdapter);
        $oArtCondTbl = new TableGateway('article_condition', $oImportAdapter);
        $oArtLoadBTbl = new TableGateway('article_loadbase', $oImportAdapter);
        $oArtOriginTbl = new TableGateway('article_origin', $oImportAdapter);
@@ -118,6 +120,22 @@ class ImportController extends CoreUpdateController {
        $oWarrantyTbl = new TableGateway('article_warranty', $oImportAdapter);
        $oDeliverytimeTbl = new TableGateway('article_deliverytime', $oImportAdapter);
        $oArtLocationTbl = new TableGateway('location', $oImportAdapter);
+
+       # Import categories
+       echo 'start importing categories...';
+       $oOldCatsDB = $oArtCatTbl->select();
+       foreach($oOldCatsDB as $oCat) {
+           CoreUpdateController::$aCoreTables['core-entity-tag']->insert([
+               'entity_form_idfs' => 'article-single',
+               'tag_idfs' => 1,
+               'tag_value' => $oCat->label,
+               'parent_tag_idfs' => 0,
+               'created_by' => 1,
+               'modified_by' => 1,
+               'created_date' => date('Y-m-d H:i:s',time()),
+               'modified_date' => date('Y-m-d H:i:s',time()),
+           ]);
+       }
 
        $oImportArts = $oArtTbl->select();
 
@@ -231,6 +249,22 @@ class ImportController extends CoreUpdateController {
            $oNewArtTbl->insert($aNewArt);
            $iNewArtID = $oNewArtTbl->lastInsertValue;
 
+           $iOldCats = $oArtCatArtTbl->select(['article_idfs' => $oArt->Article_ID]);
+           if(count($iOldCats) > 0) {
+               foreach($iOldCats as $oOldCatArtLnk) {
+                   $oOldCat = $oArtCatTbl->select(['Category_ID' => $oOldCatArtLnk->category_idfs])->current();
+                   $iNewCat = CoreUpdateController::$aCoreTables['core-entity-tag']->select([
+                       'tag_idfs' => 1,
+                       'entity_form_idfs' => 'article-single',
+                       'tag_value' => $oOldCat->label,
+                   ])->current();
+                   CoreUpdateController::$aCoreTables['core-entity-tag-entity']->insert([
+                       'entity_idfs' => $iNewArtID,
+                       'entity_tag_idfs' => $iNewCat->Entitytag_ID,
+                       'entity_type' => 'article',
+                   ]);
+               }
+           }
 
            mkdir($_SERVER['DOCUMENT_ROOT'].'/data/article/'.$iNewArtID);
            $iSortID = 0;

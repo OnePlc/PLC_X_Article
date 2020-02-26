@@ -34,6 +34,7 @@ class ExportController extends CoreExportController
      */
     public function __construct(AdapterInterface $oDbAdapter,ArticleTable $oTableGateway,$oServiceManager) {
         parent::__construct($oDbAdapter,$oTableGateway,$oServiceManager);
+        $this->sSingleForm = 'article-single';
     }
 
 

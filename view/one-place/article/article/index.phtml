@@ -5,7 +5,7 @@
                 <?= $this->partial('partial/indexheader',['sTitle'=>'Articles']) ?>
             </div>
             <div class="col-md-2 text-right">
-                <select class="form-control   ">
+                <select class="form-control plc-index-load-saved-search">
                     <option>-- <?=$this->translate('All')?> --</option>
                     <?php
                     if (count($aSavedSearches) > 0) {

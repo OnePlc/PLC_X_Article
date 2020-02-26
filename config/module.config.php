@@ -90,7 +90,7 @@ return [
                     ],
                     'defaults' => [
                         'controller' => Controller\ExportController::class,
-                        'action'     => 'index',
+                        'action'     => 'dump',
                     ],
                 ],
             ],
