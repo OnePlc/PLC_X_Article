@@ -72,4 +72,10 @@ INSERT INTO `user_xp_activity` (`Activity_ID`, `xp_key`, `label`, `xp_base`) VAL
 (NULL, 'article-edit', 'Edit Article', '5'),
 (NULL, 'article-export', 'Edit Article', '5');
 
+--
+-- widgets
+--
+INSERT INTO `core_widget` (`Widget_ID`, `widget_name`, `label`, `permission`) VALUES
+(NULL, 'article_dailystats', 'Article- Daily Stats', 'index-Article\\Controller\\ArticleController');
+
 COMMIT;

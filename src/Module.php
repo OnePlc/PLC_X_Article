@@ -31,7 +31,7 @@ class Module {
      *
      * @since 1.0.0
      */
-    const VERSION = '1.0.7';
+    const VERSION = '1.0.8';
 
     /**
      * Load module config file
@@ -111,15 +111,6 @@ class Module {
                 Controller\InstallController::class => function($container) {
                     $oDbAdapter = $container->get(AdapterInterface::class);
                     return new Controller\InstallController(
-                        $oDbAdapter,
-                        $container->get(Model\ArticleTable::class),
-                        $container
-                    );
-                },
-                # Installer
-                Controller\ImportController::class => function($container) {
-                    $oDbAdapter = $container->get(AdapterInterface::class);
-                    return new Controller\ImportController(
                         $oDbAdapter,
                         $container->get(Model\ArticleTable::class),
                         $container

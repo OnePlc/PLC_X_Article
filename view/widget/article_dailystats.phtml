@@ -1,0 +1,133 @@
+<?php
+/**
+ * Widget Options:
+ *
+ * article-widget-dailystat-showtotal - 0 or 1
+ * article-widget-dailystat-highlight-tag - "string" (tag_value) - add a tag to highlight list
+ */
+use Application\Controller\CoreController;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\Db\Sql\Select;
+use OnePlace\Article\Model\ArticleTable;
+
+try {
+    # Load Article Requests from Database
+    $oArticleTbl = CoreController::$oServiceManager->get(ArticleTable::class);
+    $iCountLive = count($oArticleTbl->fetchAll(false));
+
+    # Get Stats
+    $oStatSel = new Select(CoreController::$aCoreTables['core-statistic']->getTable());
+    $oStatSel->order('date ASC');
+    $oStatSel->where(['stats_key'=>'article-daily']);
+    $oStatSel->limit(30);
+    $oRecentStats = CoreController::$aCoreTables['core-statistic']->selectWith($oStatSel);
+} catch(ServiceNotFoundException $e) {
+
+}
+
+$aDates = [];
+$aColors = [];
+$aColorsByTag = [];
+$aStatsData = [];
+$aSeries = [];
+foreach ($oRecentStats as $oRow) {
+    $oData = json_decode($oRow->data);
+    $aData = (array)$oData;
+    foreach (array_keys($aData) as $sDataKey) {
+        if (!array_key_exists($sDataKey, $aStatsData)) {
+            $aStatsData[$sDataKey] = [];
+        }
+        $aStatsData[$sDataKey][] = (int)$aData[$sDataKey];
+    }
+    $aDates[] = date('d.m.Y', strtotime($oRow->date));
+}
+
+foreach (array_keys($aStatsData) as $sDataKey) {
+    $oTag = CoreController::$aCoreTables['core-entity-tag']->select(['tag_idfs' => 2, 'tag_value' => $sDataKey]);
+    if (count($oTag) > 0) {
+        $oTag = $oTag->current();
+        $aColors[] = $oTag->tag_color;
+        $aColorsByTag[$oTag->tag_value] = $oTag->tag_color;
+    } else {
+        if ($sDataKey == 'new') {
+            $aColors[] = 'lightgreen';
+        } elseif ($sDataKey == 'total') {
+            $aColors[] = 'lightblue';
+        } else {
+            $aColors[] = '#ffcc00';
+        }
+    }
+    $aSeries[] = (object)['name' => $this->translate($sDataKey), 'data' => $aStatsData[$sDataKey]];
+
+}
+
+$bShowTotal = true;
+if(array_key_exists('article-widget-dailystat-showtotal',CoreController::$aGlobalSettings)) {
+    if(CoreController::$aGlobalSettings['article-widget-dailystat-showtotal'] == 0) {
+        $bShowTotal = false;
+    }
+}
+
+?>
+
+<div class="col-md-4 col-xl-4">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-actions float-right">
+                <div class="dropdown show">
+                    <a href="#" data-toggle="dropdown" data-display="static">
+                        <i class="align-middle" data-feather="more-horizontal"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+            <h5 class="card-title mb-0"><?=$this->translate('Article')?> - <?=$this->translate('Info')?></h5>
+        </div>
+        <div class="card-body h-100">
+            <?php if($bShowTotal) { ?>
+                <h3 class="badge badge-success"
+                    style="font-size:18px; background:lightblue !important;"><?= $iCountLive ?></h3> <?= $this->translate('Articles') ?> <?= $this->translate('total') ?>
+                <br/>
+                <?php
+            }
+            if(array_key_exists('article-widget-dailystat-highlight-tag', CoreController::$aGlobalSettings)) {
+                $sTag = CoreController::$aGlobalSettings['article-widget-dailystat-highlight-tag']; ?>
+                <h3 class="badge badge-success" style="font-size:18px; background:<?=$aColorsByTag[$sTag]?> !important;"><?=$aStatsData[$sTag][0]?></h3> <?=$this->translate('Articles')?> <?=$this->translate($sTag)?>
+            <?php } ?>
+            <div class="chart">
+                <div id="article-dailystats"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+    // Area chart
+    var options = {
+        chart: {
+            height: 250,
+            type: 'area',
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        colors: <?=json_encode($aColors)?>,
+        series: <?=json_encode($aSeries)?>,
+        xaxis: {
+            type: 'string',
+            categories: <?=json_encode($aDates)?>
+        }
+    }
+    var chart = new ApexCharts(
+        document.querySelector("#article-dailystats"),
+        options
+    );
+    chart.render();
+});
+</script>

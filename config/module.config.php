@@ -52,20 +52,6 @@ return [
                     ],
                 ],
             ],
-            'article-import' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route' => '/article/import[/:action[/:id]]',
-                    'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
-                    ],
-                    'defaults' => [
-                        'controller' => Controller\ImportController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
             'article-api' => [
                 'type'    => Segment::class,
                 'options' => [

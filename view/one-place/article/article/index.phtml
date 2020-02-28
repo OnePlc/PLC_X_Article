@@ -1,8 +1,15 @@
+<?php
+use Application\Controller\CoreController;
+?>
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-md-10">
-                <?= $this->partial('partial/indexheader',['sTitle'=>'Articles']) ?>
+                <?php
+                $sIcon = (array_key_exists('article-icon',CoreController::$aGlobalSettings))
+                    ?  CoreController::$aGlobalSettings['article-icon'] : '';
+                ?>
+                <?= $this->partial('partial/indexheader',['sTitle'=>'Articles','sIcon' => $sIcon]) ?>
             </div>
             <div class="col-md-2 text-right">
                 <select class="form-control plc-index-load-saved-search">
