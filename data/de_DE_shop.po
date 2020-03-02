@@ -16,3 +16,6 @@ msgstr "Gutschein"
 
 msgid "Sell Price"
 msgstr "Verkaufspreis"
+
+msgid "Price"
+msgstr "Verkaufspreis"
