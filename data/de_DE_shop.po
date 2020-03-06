@@ -14,8 +14,32 @@ msgstr ""
 msgid "Article"
 msgstr "Gutschein"
 
+msgid "Articles"
+msgstr "Gutscheine"
+
+msgid "Add Article"
+msgstr "Gutschein erfassen"
+
+msgid "Add new File"
+msgstr "Neuen Gutschein erfassen"
+
+msgid "Save Article"
+msgstr "Gutschein speichern"
+
+msgid "Edit Article"
+msgstr "Gutschein ändern"
+
+msgid "Export Articles"
+msgstr "Gutscheine exportieren"
+
+msgid "Find Articles"
+msgstr "Gutscheine finden"
+
 msgid "Sell Price"
 msgstr "Verkaufspreis"
 
 msgid "Price"
 msgstr "Verkaufspreis"
+
+msgid "Description"
+msgstr "Beschreibung"
