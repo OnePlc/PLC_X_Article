@@ -8,8 +8,8 @@ INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `
 (NULL, 'featuredimage', 'Featured Image', 'featured_image', 'article-base', 'article-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'gallery', 'Gallery', 'gallery', 'article-gallery', 'article-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'partial', 'Web Gallery', 'webgallery', 'article-gallerysort', 'article-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'select', 'web show', 'show_on_web_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'OnePlace\\BoolSelect'),
-(NULL, 'select', 'web spotlight', 'web_spotlight_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'OnePlace\\BoolSelect'),
+(NULL, 'select', 'web show', 'show_on_web_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
+(NULL, 'select', 'web spotlight', 'web_spotlight_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
 (NULL, 'hidden', 'Ref', 'ref_idfs', 'article-base', 'article-single', 'col-md-1', '', '', '0', '1', '0', '', '', ''),
 (NULL, 'hidden', 'Ref Type ', 'ref_type', 'article-base', 'article-single', 'col-md-1', '', '', '0', '1', '0', '', '', '');
 
