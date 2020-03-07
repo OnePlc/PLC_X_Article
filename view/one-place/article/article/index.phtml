@@ -1,14 +1,12 @@
 <?php
 use Application\Controller\CoreController;
+$sIcon = (array_key_exists('article-icon',CoreController::$aGlobalSettings))
+    ?  CoreController::$aGlobalSettings['article-icon'] : '';
 ?>
 <div class="card">
     <div class="card-header">
         <div class="row">
             <div class="col-md-10">
-                <?php
-                $sIcon = (array_key_exists('article-icon',CoreController::$aGlobalSettings))
-                    ?  CoreController::$aGlobalSettings['article-icon'] : '';
-                ?>
                 <?= $this->partial('partial/indexheader',['sTitle'=>'Articles','sIcon' => $sIcon]) ?>
             </div>
             <div class="col-md-2 text-right">
