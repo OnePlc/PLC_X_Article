@@ -2,16 +2,16 @@
 --
 -- Core Form - Article Base Fields
 --
-INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
-(NULL, 'multiselect', 'Categories', 'category_idfs', 'article-base', 'article-single', 'col-md-2', '', '/tag/api/list/article-single/category', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable','add-OnePlace\\Article\\Controller\\CategoryController'),
-(NULL, 'textarea', 'Description', 'description', 'article-base', 'article-single', 'col-md-12', '', '', 0, 1, 0, '', '', ''),
-(NULL, 'featuredimage', 'Featured Image', 'featured_image', 'article-base', 'article-single', 'col-md-3', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'gallery', 'Gallery', 'gallery', 'article-gallery', 'article-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'partial', 'Web Gallery', 'webgallery', 'article-gallerysort', 'article-single', 'col-md-12', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'select', 'web show', 'show_on_web_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
-(NULL, 'select', 'web spotlight', 'web_spotlight_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
-(NULL, 'hidden', 'Ref', 'ref_idfs', 'article-base', 'article-single', 'col-md-1', '', '', '0', '1', '0', '', '', ''),
-(NULL, 'hidden', 'Ref Type ', 'ref_type', 'article-base', 'article-single', 'col-md-1', '', '', '0', '1', '0', '', '', '');
+INSERT INTO `core_form_field` (`Field_ID`, `type`, `label`, `fieldkey`, `tab`, `form`, `class`, `url_view`, `url_list`, `tag_key`, `show_widget_left`, `allow_clear`, `readonly`, `tbl_cached_name`, `tbl_class`, `tbl_permission`) VALUES
+(NULL, 'multiselect', 'Categories', 'categories', 'article-base', 'article-single', 'col-md-2', '', '/tag/api/list/article-single/category', 'category', 0, 1, 0, 'entitytag-single', 'OnePlace\\Tag\\Model\\EntityTagTable','add-OnePlace\\Article\\Controller\\CategoryController'),
+(NULL, 'textarea', 'Description', 'description', 'article-base', 'article-single', 'col-md-12', '', '', '', 0, 1, 0, '', '', ''),
+(NULL, 'featuredimage', 'Featured Image', 'featured_image', 'article-base', 'article-single', 'col-md-3', '', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'gallery', 'Gallery', 'gallery', 'article-gallery', 'article-single', 'col-md-12', '', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'partial', 'Web Gallery', 'webgallery', 'article-gallerysort', 'article-single', 'col-md-12', '', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'select', 'web show', 'show_on_web_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
+(NULL, 'select', 'web spotlight', 'web_spotlight_idfs', 'article-base', 'article-single', 'col-md-2', '', '/application/selectbool', '', '0', '0', '1', '0', '', 'add-OnePlace\\BoolSelect'),
+(NULL, 'hidden', 'Ref', 'ref_idfs', 'article-base', 'article-single', 'col-md-1', '', '', '', '0', '1', '0', '', '', ''),
+(NULL, 'hidden', 'Ref Type ', 'ref_type', 'article-base', 'article-single', 'col-md-1', '', '', '', '0', '1', '0', '', '', '');
 
 --
 -- Permissions
