@@ -7,7 +7,11 @@ $sIcon = (array_key_exists('article-icon',CoreController::$aGlobalSettings))
     <div class="card-header">
         <div class="row">
             <div class="col-md-10">
-                <?= $this->partial('partial/indexheader',['sTitle'=>'Articles','sIcon' => $sIcon]) ?>
+                <?= $this->partial('partial/indexheader',[
+                    'sTitle'=>'Articles',
+                    'sIcon' => $sIcon,
+                    'sCount'=>$aItems->getTotalItemCount().' total'
+                ]) ?>
             </div>
             <div class="col-md-2 text-right">
                 <select class="form-control plc-index-load-saved-search">
